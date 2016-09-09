@@ -9,16 +9,12 @@ using std::cout;
 using std::endl;
 using std::string;
 
-class ContinentStats 
-{
-
-};
-
 class Weapon 
 {
 private:
+    int count;
     int damage;
-    int cost;
+    float cost;
     int range;
 
 public:
@@ -40,6 +36,13 @@ public:
         wep.damage * modifier;
     }
 
+    void increaseCount(Weapon wep, int i) {
+        wep.count += i;
+    }
+
+
+    /* SET */
+
     void setCost(float c)
     {
         cost = c;
@@ -55,30 +58,64 @@ public:
         range = r;
     }
 
-    void getCost()
+    void setCount(int n)
+    {
+        count = n;
+    }
+
+
+    /* GET */
+
+    float getCost()
     {
         return cost;
     }
 
-    void getDamage()
+    int getDamage()
     {
         return damage;
     }
 
-    void getRange()
+    int getRange()
     {
         return range;
+    }
+
+    int getCount()
+    {
+        return count;
     }
 
 };
 
 class WeaponArsenal
-{
+{ /* Weapon Types */
 public:
     Weapon icbm;
     Weapon mrbm;
     Weapon srbm;
     Weapon bomb;
+
+    WeaponArsenal() { 
+
+        // ICBM
+        icbm.setCount(0);
+        icbm.setCost(120);
+        icbm.setRange(8000);
+        icbm.setDamage(80);
+
+        // MRBM
+        mrbm.setCount(0);
+        mrbm.setCost(100);
+        mrbm.setRange(2000);
+        mrbm.setDamage(70);
+        
+        // SRBM
+        srbm.setCount(0);
+        srbm.setCost(80);
+        srbm.setRange(800);
+        srbm.setDamage(55);
+    }
 };
 
 class Europe
@@ -87,11 +124,8 @@ private:
     WeaponArsenal arsenal;
 
 public:   
+
     Europe() {    
-        arsenal.icbm.setCost(120);
-        arsenal.icbm.setRange(90);
-        arsenal.mrbm.setCost(70);
-        arsenal.srbm.setCost(30);
     }
 };
 
@@ -101,19 +135,20 @@ private:
     WeaponArsenal arsenal;
 
 public:
+
     China() {
-        arsenal.srbm.setCost(100);
     }
+    
 };
 
 class Russia
 {
 private:
-    WeaponArsenal arsenal:
+    WeaponArsenal arsenal;
 
 public:
+
     Russia() {
-        arsenal.srbm.setCost(50);
     }
 
 };
@@ -124,13 +159,11 @@ private:
     WeaponArsenal arsenal;
 
 public:
+
     America() {
-        arsenal.srbm.setCost(50);
     }
 
 };
-
-
 
 int main() {
 
