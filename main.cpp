@@ -126,6 +126,9 @@ public:
     }
 };
 
+
+/// REGION CLASSES
+
 class Europe
 {
 private:
