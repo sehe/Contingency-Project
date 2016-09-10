@@ -176,6 +176,17 @@ public:
 
 };
 
+class Isreal {
+    private:
+    WeaponArsenal arsenal;
+
+public:
+
+    Isreal() {
+    }
+
+}
+
 int main() {
 
     // Call each region's class constructors (temporary for testing)
