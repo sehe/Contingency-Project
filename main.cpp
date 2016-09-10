@@ -9,6 +9,10 @@ using std::cout;
 using std::endl;
 using std::string;
 
+/// Weapon class
+/// Every weapon in the game will be of type Weapon
+/// Each one is upgradable
+
 class Weapon 
 {
 private:
@@ -88,6 +92,10 @@ public:
 
 };
 
+/// Weapon arsenal
+/// Each region has own version of WeaponArsenal which defines each type of weapon and sets their default weapons
+
+
 class WeaponArsenal
 { /* Weapon Types */
 public:
@@ -98,19 +106,19 @@ public:
 
     WeaponArsenal() { 
 
-        // ICBM
+        // DEFAULT ICBM VALUES
         icbm.setCount(0);
         icbm.setCost(120);
         icbm.setRange(8000);
         icbm.setDamage(80);
 
-        // MRBM
+        // DEFAULT MRBM VALUES
         mrbm.setCount(0);
         mrbm.setCost(100);
         mrbm.setRange(2000);
         mrbm.setDamage(70);
         
-        // SRBM
+        // DEFAULT SRBM VALUES
         srbm.setCount(0);
         srbm.setCost(80);
         srbm.setRange(800);
@@ -167,7 +175,7 @@ public:
 
 int main() {
 
-    // Call continent class constructors
+    // Call each region's class constructors (temporary for testing)
     Europe europe;
     China china;
     Russia russia;
