@@ -13,16 +13,6 @@ using std::cout;
 using std::endl;
 using std::string;
 
-
-// Custom sleep function for basic update function later on
-
-void sleep(unsigned int mseconds)
-{
-    clock_t goal = mseconds + clock();
-    while (goal > clock());
-}
-
-
 /// Weapon class
 /// Every weapon in the game
 /// Weapons are upgradable
@@ -106,16 +96,27 @@ public:
 
 };
 
-class WeaponArsenal /* Weapon Types */
-{ 
+/* Region */
+
+class Region
+{
 public:
+    int wealth; // wealth in billions
+    int aggression;
+    int max_aggression;
+
 
     Weapon icbm;
     Weapon mrbm;
     Weapon srbm;
+
     Weapon bomb;
 
-    WeaponArsenal() { 
+public:
+
+    Region()
+    {
+        /* Set region weapon values */
 
         // DEFAULT ICBM VALUES
         icbm.setCount(0);
@@ -137,24 +138,29 @@ public:
     }
 };
 
+/* Vehicle base class */
 
-/* Region */
-
-class Region
+class Vehicle
 {
-protected:
-    Weapon icbm;
-    Weapon mrbm;
-    Weapon srbm;
-    Weapon bomb;
 
-public:
+}
 
-    Region() 
-    {
-        // Constructor
-    }
-};
+/* Vehicle child classes */
+
+class Boat : public Vehicle 
+{
+
+}
+
+class Plane : public Vehicle
+{
+
+}
+
+class Submarine : public Vehicle 
+{
+
+}
 
 
 /* Controllers */
@@ -198,12 +204,9 @@ void Update() {
 
 int main() 
 {
-    string playerRegion; // Player's chosen region
+    string playerRegionInput; // Player's chosen region
 
-    WeaponArsenal* playerChoice; // Player's chosen region is a pointer to WeaponArsenal
-
-    std::map<string, WeaponArsenal&>;
-
+    Region* playerRegion;
 
     // Game introduction
     cout << "Welcome to The Contingency Project.\n"
