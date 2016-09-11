@@ -1,17 +1,14 @@
 // Includes:
-
 #include <iostream>
 #include <string>
 #include <functional>
 #include <chrono> 
 #include <thread>
 #include <vector>
+#include <cmath>
 
-using std::cout;
-using std::cin;
-using std::endl;
-using std::string;
-using std::vector;
+struct Goodbye {};
+using Clock = std::chrono::high_resolution_clock;
 
 /// Weapon class
 /// Every weapon in the game
@@ -32,7 +29,7 @@ struct Weapon
 class Region
 {
 public:
-    string name;
+    std::string name;
     int wealth; // wealth in billions
     int aggression;
     int max_aggression;
@@ -40,64 +37,51 @@ public:
     Weapon icbm;
     Weapon mrbm;
     Weapon srbm;
-//    Weapon bomb;
 
 public:
-    Region(string n) : name(n), icbm(0, 80, 120, 8000), mrbm(0, 70, 80, 800), srbm(0, 55, 80, 800) {}
+    Region(std::string n) : name(n), icbm(0, 80, 120, 8000), mrbm(0, 70, 80, 800), srbm(0, 55, 80, 800) {}
 };
 
-class RegionHandler 
-{
-public:
+namespace Regions {
+    std::vector<Region> static all {
+        {"europe"},
+        {"russia"},
+        {"sea"},
+        {"america"},
+        {"china"},
+        {"africa"},
+    };
 
-    //enum RegionCode { EU, RU, SEA, AM, CH, AF};
+    Region& choose() {
+        unsigned choice = all.size(); // invalid
 
-    vector<Region> regions;
-    
-    RegionHandler() {
-        static const char *names[] = { "europe", "russia", "sea", "america", "china", "africa"};
-        for (auto n : names)
-            regions.emplace_back(n);
-    }
-    
-
-    Region* chooseRegion() {
-
-        int playerRegionIndex;
-        Region* playerRegion;
-
-
-        cout << "Regions:\n"
-             << "0. Europe\n"
-             << "1. Russia\n"
-             << "2. SEA\n"
-             << "3. America\n"
-             << "4. China\n"
-             << "5. Africa\n";
-
-        do {
-            cout << "Select a region\n> ";
-            cin >> playerRegionIndex; // Get user to input a region int
+        std::cout << "Regions:\n";
+        for (unsigned i = 0; i < all.size(); ++i) {
+            std::cout << i << ". " << all.at(i).name << "\n";
         }
 
-        while(playerRegionIndex < 0 || playerRegionIndex > 5);
+        while (choice >= Regions::all.size()) {
+            std::cout << "Select a region\n> ";
+            if (!(std::cin >> choice)) {
+                if (std::cin.eof()) throw Goodbye{};
+                std::cin.clear();
+                std::cin.ignore(1024, '\n');
+            }
+        }
 
-        return &regions[playerRegionIndex];
+        return Regions::all.at(choice);
     }
-};
+}
 
 /* Controllers */
 
 class PlayerController // Player specific methods and variables
 {
+    Region& _region;
 public:
-    Region* playerRegion;
-    RegionHandler regionHandler;
+    Region const& region() const { return _region; }
 
-    PlayerController() {
-        playerRegion = regionHandler.chooseRegion();
-    }
-
+    PlayerController(Region& region) : _region(region) { }
 };
 
 class AiController // AI specific methods and variabels
@@ -119,41 +103,23 @@ void Start() {
 }
 
 void Update() {
-
     bool run = true; // Set run to false to quit update loop and end game loop: TEMP
     
-    // Update function run once per second
-
-    while(run) 
-    {
-        // GAME LOOP
-
-        auto begin = std::chrono::high_resolution_clock::now(); // Start timepoint 
-        
-        cout << "second has passed\n"; // Test if second has passed
+    while (run) {
+        auto begin = Clock::now();
 
         // Update loop code here
 
-        auto end = std::chrono::high_resolution_clock::now(); // End timepoint
-
-        //auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count(); // Duration between start and end point
-
-        auto remaining = std::chrono::seconds(1) - (end - begin); // Remaining time
-
-        std::this_thread::sleep_for(remaining); // Pause for remaining time
-
+        std::this_thread::sleep_until(begin + std::chrono::seconds(1)); // Pause for remaining time
     }
 }
 
 int main() 
 {
-    RegionHandler regionHandler;
-
-    // Game introduction
-    cout << "Welcome to The Contingency Project.\n"
+    std::cout << "Welcome to The Contingency Project.\n"
          << "A global nuclear war is about to take place\n"
          << "Will you be able to survive with the smallest population decrease percentage?\n";
 
-    PlayerController playerController;
-    cout << playerController.playerRegion->name;
+    PlayerController playerController(Regions::choose());
+    std::cout << playerController.region().name;
 }
