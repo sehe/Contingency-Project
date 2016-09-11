@@ -4,10 +4,19 @@
  */
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 using std::cout;
 using std::endl;
 using std::string;
+
+void sleep(unsigned int mseconds)
+{
+    clock_t goal = mseconds + clock();
+    while (goal > clock());
+}
+
 
 /// Weapon class
 /// Every weapon in the game will be of type Weapon
@@ -22,26 +31,26 @@ private:
     int range;
 
 public:
-    void upgradeRange(Weapon wep, float p) {
+    void upgradeRange(float p) {
         float percentDecimal = p / 100;
         float modifier = percentDecimal + 1;
-        wep.range * modifier;
+        range *= modifier;
     }
 
-    void upgradeCost(Weapon wep, float p) {
+    void upgradeCost(float p) {
         float percentDecimal = p / 100;
         float modifier = percentDecimal + 1;
-        wep.cost * modifier;
+        cost *= modifier;
     }
 
-    void upgradeDamage(Weapon wep, float p) {
+    void upgradeDamage(float p) {
         float percentDecimal = p / 100;
         float modifier = percentDecimal + 1;
-        wep.damage * modifier;
+        damage *= modifier;
     }
 
-    void increaseCount(Weapon wep, int i) {
-        wep.count += i;
+    void increaseCount(int i) {
+        count += i;
     }
 
 
@@ -99,6 +108,7 @@ public:
 class WeaponArsenal
 { /* Weapon Types */
 public:
+
     Weapon icbm;
     Weapon mrbm;
     Weapon srbm;
@@ -129,70 +139,61 @@ public:
 
 /// REGION CLASSES
 
-class Europe
+class Region
 {
-private:
+public:
     WeaponArsenal arsenal;
-
-public:   
-
-    Europe() {    
-    }
 };
 
-class China
+class EnemyRegion 
 {
-private:
-    WeaponArsenal arsenal;
 
-public:
+};
 
-    China() {
-    }
+void EventHandler() {
+
+}
+
+void Update() {
+
+    bool run = true;
     
-};
+    /// WHILE LOOP IN UPDATE FUNCTION WILL UPDATE ONCE PER SECOND
 
-class Russia
-{
-private:
-    WeaponArsenal arsenal;
+    while(run) {
 
-public:
+        auto begin = std::chrono::high_resolution_clock::now(); // Start point time
+        
+        cout << "second has passed\n";
 
-    Russia() {
+        auto end = std::chrono::high_resolution_clock::now(); // End point time
+
+        //auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count(); // Duration between start and end point
+
+        auto remaining = std::chrono::seconds(1) - (end - begin); // Remaining time
+
+        std::this_thread::sleep_for(remaining); // Pause for remaining time
+
     }
-
-};
-
-class America 
-{
-private:
-    WeaponArsenal arsenal;
-
-public:
-
-    America() {
-    }
-
-};
-
-class Isreal {
-    private:
-    WeaponArsenal arsenal;
-
-public:
-
-    Isreal() {
-    }
-
 }
 
 int main() {
 
     // Call each region's class constructors (temporary for testing)
-    Europe europe;
-    China china;
-    Russia russia;
-    America america;
+
+    string playerRegion;
+
+    cout << "Welcome to The Contingency Project.\n"
+         << "A global nuclear war is about to take place\n"
+         << "Will you be able to survive with the smallest population decrease percentage?\n";
+
+    cout << "Please select a region to play as.\n> ";
+    cin >> playerRegion;
+    cout << "You have chosen to play as " << playerRegion << "!\n";
+
+
+
+    Update();
+
 
 }
