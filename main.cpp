@@ -3,13 +3,18 @@
  * Nuclear War Survival Simulator
  */
 
+// Includes:
+
 #include <iostream>
-#include <chrono>
+#include <chrono> 
 #include <thread>
 
 using std::cout;
 using std::endl;
 using std::string;
+
+
+// Custom sleep function for basic update function later on
 
 void sleep(unsigned int mseconds)
 {
@@ -19,8 +24,8 @@ void sleep(unsigned int mseconds)
 
 
 /// Weapon class
-/// Every weapon in the game will be of type Weapon
-/// Each one is upgradable
+/// Every weapon in the game
+/// Weapons are upgradable
 
 class Weapon 
 {
@@ -101,12 +106,8 @@ public:
 
 };
 
-/// Weapon arsenal
-/// Each region has own version of WeaponArsenal which defines each type of weapon and sets their default weapons
-
-
-class WeaponArsenal
-{ /* Weapon Types */
+class WeaponArsenal /* Weapon Types */
+{ 
 public:
 
     Weapon icbm;
@@ -137,36 +138,49 @@ public:
 };
 
 
-/// REGION CLASSES
+/* Region */
 
 class Region
 {
 public:
     WeaponArsenal arsenal;
+
+    Region() 
+    {
+        // Constructor
+    }
 };
 
-class EnemyRegion 
+
+/* Controllers */
+
+class PlayerController // Player specific methods and variables
 {
-
+    //
 };
 
-void EventHandler() {
-
-}
+class AiController // AI specific methods and variabels
+{
+    //
+};
 
 void Update() {
 
-    bool run = true;
+    bool run = true; // Set run to false to quit update loop and end game loop: TEMP
     
-    /// WHILE LOOP IN UPDATE FUNCTION WILL UPDATE ONCE PER SECOND
+    // Update function run once per second
 
-    while(run) {
+    while(run) 
+    {
+        // GAME LOOP
 
-        auto begin = std::chrono::high_resolution_clock::now(); // Start point time
+        auto begin = std::chrono::high_resolution_clock::now(); // Start timepoint 
         
-        cout << "second has passed\n";
+        cout << "second has passed\n"; // Test if second has passed
 
-        auto end = std::chrono::high_resolution_clock::now(); // End point time
+        // Update loop code here
+
+        auto end = std::chrono::high_resolution_clock::now(); // End timepoint
 
         //auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count(); // Duration between start and end point
 
@@ -177,23 +191,34 @@ void Update() {
     }
 }
 
-int main() {
+int main() 
+{
 
-    // Call each region's class constructors (temporary for testing)
+    string playerRegion; // Player's chosen region
 
-    string playerRegion;
+    WeaponArsenal* playerChoice; // Player's chosen region is a pointer to WeaponArsenal
 
+    std::map<string, WeaponArsenal&>;
+
+
+    // Game introduction
     cout << "Welcome to The Contingency Project.\n"
          << "A global nuclear war is about to take place\n"
          << "Will you be able to survive with the smallest population decrease percentage?\n";
 
+    // Player region input
     cout << "Please select a region to play as.\n> ";
     cin >> playerRegion;
     cout << "You have chosen to play as " << playerRegion << "!\n";
 
+    switch playerRegion { // Region selection conditional
+        case "":
+        break;
+        case "":
+    }
 
 
+    // Run game loop through update function
     Update();
-
 
 }
