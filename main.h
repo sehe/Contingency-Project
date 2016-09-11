@@ -115,6 +115,13 @@ public:
 
 };
 
+/* Vehicle base class */
+
+class Vehicle
+{
+
+};
+
 /* Controllers */
 
 class PlayerController // Player specific methods and variables
@@ -127,48 +134,6 @@ public:
 class AiController // AI specific methods and variabels
 {
 public:
-
-};
-
-class RegionHandler 
-{
-public:
-
-    PlayerController playerController;
-
-    Region regions[6] {Region{"europe"}, Region{"russia"}, Region{"sea"}, Region{"america"}, Region{"china"}, Region{"africa"} };
-
-    RegionHandler() 
-    {
-
-    }
-
-    void chooseRegion() {
-
-        int playerRegionIndex;
-
-        cout << "Regions:\n"
-             << "0. Europe\n"
-             << "1. Russia\n"
-             << "2. SEA\n"
-             << "3. America\n"
-             << "4. China\n"
-             << "5. Africa\n";
-
-        do {
-            cout << "Select a region\n> ";
-            std::cin >> playerRegionIndex; // Get user to input a region int
-        }
-        while(playerRegionIndex < 0 || playerRegionIndex > 5);
-
-        playerController.playerRegion = &regions[playerRegionIndex];
-    }
-};
-
-/* Vehicle base class */
-
-class Vehicle
-{
 
 };
 
@@ -204,16 +169,39 @@ void Update() {
     }
 }
 
+void chooseRegion() {
+
+    Region regions[6] {Region("europe"), Region("russia"), Region("sea"), Region("america"), Region("china"), Region("africa")};
+    Region* playerRegion;
+
+    int playerRegionIndex;
+
+    cout << "Regions:\n"
+         << "0. Europe\n"
+         << "1. Russia\n"
+         << "2. SEA\n"
+         << "3. America\n"
+         << "4. China\n"
+         << "5. Africa\n";
+
+    do {
+        cout << "Select a region\n> ";
+        std::cin >> playerRegionIndex; // Get user to input a region int
+
+        while(playerRegionIndex < 0 || playerRegionIndex > 5);
+    }
+
+    (PlayerController.playerRegion = &regions[playerRegionIndex]);
+}
+
 int main() 
 {
-    Region* playerRegion;
-    RegionHandler regionHandler;
 
     // Game introduction
     cout << "Welcome to The Contingency Project.\n"
          << "A global nuclear war is about to take place\n"
          << "Will you be able to survive with the smallest population decrease percentage?\n";
 
-    regionHandler.chooseRegion();
+    chooseRegion();
 
 }
