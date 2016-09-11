@@ -142,8 +142,13 @@ public:
 
 class Region
 {
+protected:
+    Weapon icbm;
+    Weapon mrbm;
+    Weapon srbm;
+    Weapon bomb;
+
 public:
-    WeaponArsenal arsenal;
 
     Region() 
     {
@@ -193,7 +198,6 @@ void Update() {
 
 int main() 
 {
-
     string playerRegion; // Player's chosen region
 
     WeaponArsenal* playerChoice; // Player's chosen region is a pointer to WeaponArsenal
