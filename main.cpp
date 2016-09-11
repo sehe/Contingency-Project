@@ -62,10 +62,13 @@ namespace Regions {
 
         while (choice >= Regions::all.size()) {
             std::cout << "Select a region\n> ";
+
             if (!(std::cin >> choice)) {
                 if (std::cin.eof()) throw Goodbye{};
                 std::cin.clear();
                 std::cin.ignore(1024, '\n');
+
+                choice = all.size(); // need to reset
             }
         }
 
