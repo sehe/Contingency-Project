@@ -46,58 +46,26 @@ public:
     Region(string n) : name(n), icbm(0, 80, 120, 8000), mrbm(0, 70, 80, 800), srbm(0, 55, 80, 800) {}
 };
 
-/* Controllers */
-
-class PlayerController // Player specific methods and variables
-{
-public:
-    Region* playerRegion;
-
-};
-
-class AiController // AI specific methods and variabels
-{
-public:
-
-};
-
 class RegionHandler 
 {
 public:
-    // Region& europe;
-    // Region& russia;
-    // Region& sea;
-    // Region& america;
-    // Region& china;
-    // Region& africa;
 
-    enum RegionCode { EU, RU, SEA, AM, CH, AF};
-
-    // Region regions[6];
-
-    PlayerController playerController;
-
-    // RegionHandler() : europe(regions[EU]),
-    //                   russia(regions[RU]),
-    //                   sea(regions[SEA]),
-    //                   america(regions[AM]),
-    //                   china(regions[CH]),
-    //                   africa(regions[AF]),
-    //                   regions {Region{"europe"},Region{"russia"},Region{"sea"},Region{"america"},Region{"china"},Region{"africa"}}
-    // {}
+    //enum RegionCode { EU, RU, SEA, AM, CH, AF};
 
     vector<Region> regions;
     
     RegionHandler() {
-        static const char *names[] = { "russia", "sea", "america", "china", "africa"};
+        static const char *names[] = { "europe", "russia", "sea", "america", "china", "africa"};
         for (auto n : names)
             regions.emplace_back(n);
     }
     
 
-    void chooseRegion() {
+    Region* chooseRegion() {
 
         int playerRegionIndex;
+        Region* playerRegion;
+
 
         cout << "Regions:\n"
              << "0. Europe\n"
@@ -114,8 +82,28 @@ public:
 
         while(playerRegionIndex < 0 || playerRegionIndex > 5);
 
-        playerController.playerRegion = &regions[playerRegionIndex];
+        return &regions[playerRegionIndex];
     }
+};
+
+/* Controllers */
+
+class PlayerController // Player specific methods and variables
+{
+public:
+    Region* playerRegion;
+    RegionHandler regionHandler;
+
+    PlayerController() {
+        playerRegion = regionHandler.chooseRegion();
+    }
+
+};
+
+class AiController // AI specific methods and variabels
+{
+public:
+
 };
 
 /* Vehicle base class */
@@ -160,15 +148,12 @@ void Update() {
 int main() 
 {
     RegionHandler regionHandler;
-    PlayerController playerController;
 
     // Game introduction
     cout << "Welcome to The Contingency Project.\n"
          << "A global nuclear war is about to take place\n"
          << "Will you be able to survive with the smallest population decrease percentage?\n";
 
-    regionHandler.chooseRegion();
-
-    string mystr = playerController.playerRegion->name;
-
+    PlayerController playerController;
+    cout << playerController.playerRegion->name;
 }
