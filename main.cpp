@@ -89,10 +89,10 @@ public:
 
 public:
 
-    Region(string n)
+    Region(string n) : name(n)
     {
         /* Set region weapon values */
-        name = n;
+
         // DEFAULT ICBM VALUES
         icbm.setCount(0);
         icbm.setCost(120);
@@ -132,20 +132,28 @@ public:
 class RegionHandler 
 {
 public:
+    Region& europe;
+    Region& russia;
+    Region& sea;
+    Region& america;
+    Region& china;
+    Region& africa;
+
     enum RegionCode { EU, RU, SEA, AM, CH, AF};
 
-    Region regions[] {Region{"europe"},Region{"russia"},Region{"sea"},Region{"america"},Region{"china"},Region{"africa"} };
+    Region regions[6];
 
     PlayerController playerController;
 
-    RegionHandler() 
+    RegionHandler() : europe(regions[EU]),
+                      russia(regions[RU]),
+                      sea(regions[SEA]),
+                      america(regions[AM]),
+                      china(regions[CH]),
+                      africa(regions[AF]),
+                      regions {Region{"europe"},Region{"russia"},Region{"sea"},Region{"america"},Region{"china"},Region{"africa"}}
     {
-        Region& europe      = regions[EU]; // when calling europe, will call regions[0] because EU has a value of 0 in enum
-        Region& russia      = regions[RU];
-        Region& sea         = regions[SEA];
-        Region& america     = regions[AM];
-        Region& china       = regions[CH];
-        Region& africa      = regions[AF];
+
     }
 
     void chooseRegion() {
