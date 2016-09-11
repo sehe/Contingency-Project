@@ -15,61 +15,14 @@ using std::string;
 /// Every weapon in the game
 /// Weapons are upgradable
 
-class Weapon 
+struct Weapon 
 {
-private:
     int count;
     int damage;
     float cost;
     int range;
-
-public:
-
-    /* SET */
-
-    void setCost(float c)
-    {
-        cost = c;
-    }
-
-    void setDamage(int d)
-    {
-        damage = d;
-    }
-
-    void setRange(int r)
-    {
-        range = r;
-    }
-
-    void setCount(int n)
-    {
-        count = n;
-    }
-
-
-    /* GET */
-
-    float getCost()
-    {
-        return cost;
-    }
-
-    int getDamage()
-    {
-        return damage;
-    }
-
-    int getRange()
-    {
-        return range;
-    }
-
-    int getCount()
-    {
-        return count;
-    }
-
+    
+    Weapon(int count, int damage, float cost, int range) : count(count), damage(damage), cost(cost), range(range) {}
 };
 
 /* Region */
@@ -85,33 +38,10 @@ public:
     Weapon icbm;
     Weapon mrbm;
     Weapon srbm;
-    Weapon bomb;
+//    Weapon bomb;
 
 public:
-
-    Region(string n) : name(n)
-    {
-        /* Set region weapon values */
-
-        // DEFAULT ICBM VALUES
-        icbm.setCount(0);
-        icbm.setCost(120);
-        icbm.setRange(8000);
-        icbm.setDamage(80);
-
-        // DEFAULT MRBM VALUES
-        mrbm.setCount(0);
-        mrbm.setCost(100);
-        mrbm.setRange(2000);
-        mrbm.setDamage(70);
-        
-        // DEFAULT SRBM VALUES
-        srbm.setCount(0);
-        srbm.setCost(80);
-        srbm.setRange(800);
-        srbm.setDamage(55);
-    }
-
+    Region(string n) : name(n), icbm(0, 80, 120, 8000), mrbm(0, 70, 80, 800), srbm(0, 55, 80, 800) {}
 };
 
 /* Controllers */
@@ -152,9 +82,17 @@ public:
                       china(regions[CH]),
                       africa(regions[AF]),
                       regions {Region{"europe"},Region{"russia"},Region{"sea"},Region{"america"},Region{"china"},Region{"africa"}}
-    {
+    {}
 
+    /* POSSIBLE CONSTRUCTOR ALTERNATIVE
+    std::vector<Region> regions;
+    
+    RegionHandler() {
+        static const char *names[] = { "russia", "sea", "america", "china", "africa"};
+        for (auto n : names)
+            regions.emplace_back(n);
     }
+    */
 
     void chooseRegion() {
 
@@ -172,6 +110,7 @@ public:
             cout << "Select a region\n> ";
             cin >> playerRegionIndex; // Get user to input a region int
         }
+
         while(playerRegionIndex < 0 || playerRegionIndex > 5);
 
         playerController.playerRegion = &regions[playerRegionIndex];
