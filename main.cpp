@@ -5,11 +5,13 @@
 #include <functional>
 #include <chrono> 
 #include <thread>
+#include <vector>
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using std::vector;
 
 /// Weapon class
 /// Every weapon in the game
@@ -62,37 +64,36 @@ public:
 class RegionHandler 
 {
 public:
-    Region& europe;
-    Region& russia;
-    Region& sea;
-    Region& america;
-    Region& china;
-    Region& africa;
+    // Region& europe;
+    // Region& russia;
+    // Region& sea;
+    // Region& america;
+    // Region& china;
+    // Region& africa;
 
     enum RegionCode { EU, RU, SEA, AM, CH, AF};
 
-    Region regions[6];
+    // Region regions[6];
 
     PlayerController playerController;
 
-    RegionHandler() : europe(regions[EU]),
-                      russia(regions[RU]),
-                      sea(regions[SEA]),
-                      america(regions[AM]),
-                      china(regions[CH]),
-                      africa(regions[AF]),
-                      regions {Region{"europe"},Region{"russia"},Region{"sea"},Region{"america"},Region{"china"},Region{"africa"}}
-    {}
+    // RegionHandler() : europe(regions[EU]),
+    //                   russia(regions[RU]),
+    //                   sea(regions[SEA]),
+    //                   america(regions[AM]),
+    //                   china(regions[CH]),
+    //                   africa(regions[AF]),
+    //                   regions {Region{"europe"},Region{"russia"},Region{"sea"},Region{"america"},Region{"china"},Region{"africa"}}
+    // {}
 
-    /* POSSIBLE CONSTRUCTOR ALTERNATIVE
-    std::vector<Region> regions;
+    vector<Region> regions;
     
     RegionHandler() {
         static const char *names[] = { "russia", "sea", "america", "china", "africa"};
         for (auto n : names)
             regions.emplace_back(n);
     }
-    */
+    
 
     void chooseRegion() {
 
@@ -158,8 +159,8 @@ void Update() {
 
 int main() 
 {
-    Region* playerRegion;
     RegionHandler regionHandler;
+    PlayerController playerController;
 
     // Game introduction
     cout << "Welcome to The Contingency Project.\n"
@@ -167,5 +168,7 @@ int main()
          << "Will you be able to survive with the smallest population decrease percentage?\n";
 
     regionHandler.chooseRegion();
+
+    string mystr = playerController.playerRegion->name;
 
 }
