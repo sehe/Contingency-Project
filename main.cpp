@@ -1,15 +1,13 @@
-/* Contingency Project By Finn Fallowfield
- * Copyright (c) 2016 Finn Fallowfield
- * Nuclear War Survival Simulator
- */
-
 // Includes:
 
 #include <iostream>
+#include <string>
+#include <functional>
 #include <chrono> 
 #include <thread>
 
 using std::cout;
+using std::cin;
 using std::endl;
 using std::string;
 
@@ -79,6 +77,7 @@ public:
 class Region
 {
 public:
+    string name;
     int wealth; // wealth in billions
     int aggression;
     int max_aggression;
@@ -90,10 +89,10 @@ public:
 
 public:
 
-    Region()
+    Region(string n)
     {
         /* Set region weapon values */
-
+        name = n;
         // DEFAULT ICBM VALUES
         icbm.setCount(0);
         icbm.setCost(120);
@@ -133,14 +132,20 @@ public:
 class RegionHandler 
 {
 public:
+    enum RegionCode { EU, RU, SEA, AM, CH, AF};
+
+    Region regions[] {Region{"europe"},Region{"russia"},Region{"sea"},Region{"america"},Region{"china"},Region{"africa"} };
 
     PlayerController playerController;
 
-    Region regions[6] {Region{"europe"}, Region{"russia"}, Region{"sea"}, Region{"america"}, Region{"china"}, Region{"africa"} };
-
     RegionHandler() 
     {
-
+        Region& europe      = regions[EU]; // when calling europe, will call regions[0] because EU has a value of 0 in enum
+        Region& russia      = regions[RU];
+        Region& sea         = regions[SEA];
+        Region& america     = regions[AM];
+        Region& china       = regions[CH];
+        Region& africa      = regions[AF];
     }
 
     void chooseRegion() {
@@ -157,7 +162,7 @@ public:
 
         do {
             cout << "Select a region\n> ";
-            std::cin >> playerRegionIndex; // Get user to input a region int
+            cin >> playerRegionIndex; // Get user to input a region int
         }
         while(playerRegionIndex < 0 || playerRegionIndex > 5);
 
