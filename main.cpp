@@ -26,28 +26,6 @@ private:
     int range;
 
 public:
-    void upgradeRange(float p) {
-        float percentDecimal = p / 100;
-        float modifier = percentDecimal + 1;
-        range *= modifier;
-    }
-
-    void upgradeCost(float p) {
-        float percentDecimal = p / 100;
-        float modifier = percentDecimal + 1;
-        cost *= modifier;
-    }
-
-    void upgradeDamage(float p) {
-        float percentDecimal = p / 100;
-        float modifier = percentDecimal + 1;
-        damage *= modifier;
-    }
-
-    void increaseCount(int i) {
-        count += i;
-    }
-
 
     /* SET */
 
